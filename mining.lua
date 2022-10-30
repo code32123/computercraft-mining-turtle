@@ -20,8 +20,25 @@ local function askStripMine()
         stripMine = true
     else
         print("Please Just Enter 0 or 1 ! >.<")
+        sleep(1.5)
         askStripMine()
     end 
+end
+
+local function checkFuelAndRefill()
+    fuelLevel = turtle.getFuelLevel()
+    if fuelLevel ~= 0 then
+        if fuelLevel < 100 then
+            turtle.select(1)
+            if not turtle.refuel(fuel) then
+                print("Low on Fuel please Refill")
+                os.shutdown()
+            end
+        else
+            print("Current Fuel level: ", fuelLevel)
+        end
+                
+    end
 end
 
 
@@ -30,5 +47,4 @@ input = io.read()
 distance = tonumber(input)
 
 askStripMine()
-
-
+checkFuelAndRefill()
