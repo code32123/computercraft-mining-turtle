@@ -1,6 +1,9 @@
 local distance = 0
 local distanceDigged = 0
 local stripMineDistance = 0
+local stripMineLength = 0
+local stripMineLengthDigged = 0
+local stripMineDistanceDigged = 0
 
 local placeTorch = false
 local stripMine = false
@@ -75,17 +78,22 @@ local function placeChestIfNeeded()
     -- Checking for Chest count
     if turtle.getItemCount(chestSlot) > 0 then
         turtle.select(chestSlot) 
+        -- Checking last item slot to check if inventory is full
         if turtle.getItemCount(16) > 0 then
+            print("Need a chest!")
             turtle.digDown()
             turtle.placeDown()
+            print("Placed a chest.")
 
             for slot = 5, 16 do
                 turtle.select(slot)
                 turtle.dropDown(turtle.getItemCount())
             end
+
+            print("Placed all items into the Chest.")
         end
     else 
-        print("No chest shuting down to prevent Overload.")
+        print("No chest shutting down to prevent Overload.")
         if turtle.getItemCount(16) > 0 then
             os.shutdown()
         end
@@ -93,7 +101,29 @@ local function placeChestIfNeeded()
 end
 
 local function digForward()
+    if turtle.detect() then
+        turtle.dig()
+        turtle.forward()
 
+        if turtle.detectUp() then 
+            turtle.digUp()
+        end
+    end
+end
+
+local function digStripMiningHallway()
+    turtle.turnLeft()
+
+    repeat
+        checkFuelAndRefill()
+        placeBlockBelow()
+        placeChestIfNeeded()
+        digForward()
+
+        stripMineLengthDigged = stripMineLengthDigged + 1
+    until stripMineLengthDigged == stripMineLength
+
+    stripMineLengthDigged = 0
 end
 
 print("How far do you want your Mine?")
@@ -102,17 +132,35 @@ distance = tonumber(input)
 
 askStripMine()
 
+print("Length of Strip mine hallway:")
+input = io.read()
+stripMineLength = tonumber(input)
+
+print("Distance between Strip mine hallways:")
+input = io.read()
+stripMineDistance = tonumber(input)
+
 repeat
     checkFuelAndRefill()
     placeBlockBelow()
     placeChestIfNeeded()
     digForward()
-
+    
     distanceDigged = distanceDigged + 1
     distance = distance - 1
 
-    if distanceDigged == 10 then
+    if stripMine then
+        stripMineDistanceDigged = stripMineDistanceDigged + 1
+
+        if stripMineDistanceDigged == stripMineDistance then
+            digStripMiningHallway()
+            stripMineDistanceDigged = 0
+        end
+    end
+
+    if distanceDigged == 7 then
         checkTorchAndPlace()
+        distanceDigged = 0
     end
 
     sleep(0.5)
