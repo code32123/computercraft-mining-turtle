@@ -6,13 +6,13 @@ local placeTorch = false
 local stripMine = false
 local fuelNeeded = false
 
-local fuel = turtle.getItemCount(1)
-local torch = turtle.getItemCount(2)
-local chest = turtle.getItemCount(3)
-local block = turtle.getItemCount(4)
+local fuelSlot = 1
+local torchSlot = 2
+local chestSlot = 3
+local blockSlot = 4
 
 local function askStripMine()
-    print("Do you want Strip Mining? 0(no) or 1(yes)")
+    print("Do you want Strip Mining? \n 0(no) or 1(yes)")
     input = io.read()
     inputNumber = tonumber(input)
     if inputNumber == 0 then
@@ -30,23 +30,23 @@ local function checkFuelAndRefill()
     fuelLevel = turtle.getFuelLevel()
     if fuelLevel ~= 0 then
         if fuelLevel < 100 then
-            turtle.select(1)
-            if not turtle.refuel(fuel) then
+            turtle.select(fuelSlot)
+            if not turtle.refuel(turtle.getItemCount(fuelSlot)) then
                 print("Low on Fuel please Refill!")
             end
         else
             print("Enough Fuel for now.")
-            print("Current Fuel level: ", fuelLevel)
+            print("Current Fuel level:", fuelLevel)
         end 
     end
 end
 
 local function checkTorchAndPlace()
     -- Check Torch Count
-    if turtle.getItemCount(2) > 0 then
+    if turtle.getItemCount(torchSlot) > 0 then
         turtle.turnLeft()
         turtle.turnLeft()
-        turtle.select(2)
+        turtle.select(torchSlot)
         turtle.place()
         turtle.turnRight()
         turtle.turnRight()
@@ -57,8 +57,10 @@ end
 
 local function placeBlockBelow()
     if not turtle.detectDown() then
-        if block > 0 then
-            turtle.select(4)
+        
+        -- Check Block Count
+        if turtle.getItemCount(blockSlot) > 0 then
+            turtle.select(blockSlot)
             turtle.placeDown()
             print("Placed a Block under me.")
         else
@@ -71,9 +73,9 @@ end
 
 local function placeChestIfNeeded()
     -- Checking for Chest count
-    if turtle.getItemCount(3) > 0 then 
+    if turtle.getItemCount(chestSlot) > 0 then 
         if turtle.getItemCount(16) > 0 then
-
+            
         end
     end
 end
@@ -89,6 +91,7 @@ distance = tonumber(input)
 askStripMine()
 
 repeat
+    checkTorchAndPlace() -- remove
     checkFuelAndRefill()
     placeBlockBelow()
     placeChestIfNeeded()
