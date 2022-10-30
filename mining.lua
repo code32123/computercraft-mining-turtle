@@ -59,9 +59,12 @@ local function placeBlockBelow()
         if block > 0 then
             turtle.select(4)
             turtle.placeDown()
+            print("Placed a Block under me.")
         else
             print("No Blocks in Slot 4, i will be floating like jesus :)")
         end
+    else
+        print("There is a Block under me, nothing to Place.")
     end
 end
 
