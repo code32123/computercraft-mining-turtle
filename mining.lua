@@ -73,9 +73,21 @@ end
 
 local function placeChestIfNeeded()
     -- Checking for Chest count
-    if turtle.getItemCount(chestSlot) > 0 then 
+    if turtle.getItemCount(chestSlot) > 0 then
+        turtle.select(chestSlot) 
         if turtle.getItemCount(16) > 0 then
-            
+            turtle.digDown()
+            turtle.placeDown()
+
+            for slot = 5, 16 do
+                turtle.select(slot)
+                turtle.dropDown(turtle.getItemCount())
+            end
+        end
+    else 
+        print("No chest shuting down to prevent Overload.")
+        if turtle.getItemCount(16) > 0 then
+            os.shutdown()
         end
     end
 end
@@ -91,7 +103,6 @@ distance = tonumber(input)
 askStripMine()
 
 repeat
-    checkTorchAndPlace() -- remove
     checkFuelAndRefill()
     placeBlockBelow()
     placeChestIfNeeded()
