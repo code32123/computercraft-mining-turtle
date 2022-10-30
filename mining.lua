@@ -42,7 +42,8 @@ local function checkFuelAndRefill()
 end
 
 local function checkTorchAndPlace()
-    if torch > 0 then
+    -- Check Torch Count
+    if turtle.getItemCount(2) > 0 then
         turtle.turnLeft()
         turtle.turnLeft()
         turtle.select(2)
@@ -68,6 +69,19 @@ local function placeBlockBelow()
     end
 end
 
+local function placeChestIfNeeded()
+    -- Checking for Chest count
+    if turtle.getItemCount(3) > 0 then 
+        if turtle.getItemCount(16) > 0 then
+
+        end
+    end
+end
+
+local function digForward()
+
+end
+
 print("How far do you want your Mine?")
 input = io.read()
 distance = tonumber(input)
@@ -77,8 +91,15 @@ askStripMine()
 repeat
     checkFuelAndRefill()
     placeBlockBelow()
+    placeChestIfNeeded()
+    digForward()
 
     distanceDigged = distanceDigged + 1
     distance = distance - 1
+
+    if distanceDigged == 10 then
+        checkTorchAndPlace()
+    end
+
     sleep(0.5)
 until distance == 0
