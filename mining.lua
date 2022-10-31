@@ -141,7 +141,7 @@ local function digStripMiningHallway()
     until stripMineLengthDigged == 0
 
     turtle.turnRight()
-    turtle.turnRight()
+    --[[ turtle.turnRight()
 
     repeat
         checkFuelAndRefill()
@@ -163,7 +163,7 @@ local function digStripMiningHallway()
         stripMineLengthDigged = stripMineLengthDigged - 1
     until stripMineLengthDigged == 0
 
-    turtle.turnLeft()
+    turtle.turnLeft() ]]
 end
 
 print("How far do you want your Mine?")
