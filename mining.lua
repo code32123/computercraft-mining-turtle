@@ -1,3 +1,5 @@
+---@diagnostic disable: undefined-global
+
 local distance = 0
 local distanceDigged = 0
 local distanceDiggedTorchDistance = 0
@@ -8,6 +10,7 @@ local stripMineLengthDigged = 0
 local stripMineLengthTorchDistance = 0
 
 local stripMine = false
+local isLeft = false
 
 local fuelSlot = 1
 local torchSlot = 2
@@ -77,18 +80,59 @@ end
 local function placeChestIfNeeded()
     -- Checking for Chest count
     if turtle.getItemCount(chestSlot) > 0 then
-        turtle.select(chestSlot) 
         -- Checking last item slot to check if inventory is full
         if turtle.getItemCount(16) > 0 then
-            print("Need a chest!")
-            turtle.digDown()
-            turtle.placeDown()
-            print("Placed a chest.")
+            turtle.select(chestSlot) 
 
-            for slot = 5, 16 do
-                turtle.select(slot)
-                turtle.dropDown(turtle.getItemCount())
+            if stripMine then
+                if stripMineLengthDigged > 0 then
+                    turtle.turnLeft()
+                    turtle.turnLeft()
+
+                    for block = 0, stripMineLengthDigged do
+                        digForward()
+                    end
+
+                    print("Need a chest!")
+                    turtle.digDown()
+                    turtle.placeDown()
+                    print("Placed a chest.")
+
+                    for slot = 5, 16 do
+                        turtle.select(slot)
+                        turtle.dropDown(turtle.getItemCount())
+                    end
+
+                    turtle.turnLeft()
+                    turtle.turnLeft()
+
+                    for block = 0, stripMineLengthDigged do
+                        digForward()
+                    end
+                else
+                    print("Need a chest!")
+                    turtle.digDown()
+                    turtle.placeDown()
+                    print("Placed a chest.")
+
+                    for slot = 5, 16 do
+                        turtle.select(slot)
+                        turtle.dropDown(turtle.getItemCount())
+                    end
+                end
+            else
+                print("Need a chest!")
+                turtle.digDown()
+                turtle.placeDown()
+                print("Placed a chest.")
+
+                for slot = 5, 16 do
+                    turtle.select(slot)
+                    turtle.dropDown(turtle.getItemCount())
+                end
             end
+
+           
             print("Placed all items into the Chest.")
         end
     else 
@@ -121,6 +165,9 @@ end
 local function digStripMiningHallway()
     turtle.turnLeft()
 
+    -- Setting direction in witch the turtle is looking
+    isLeft = true
+
     repeat
         checkFuelAndRefill()
         placeBlockBelow()
@@ -138,6 +185,9 @@ local function digStripMiningHallway()
         stripMineLengthDigged = stripMineLengthDigged - 1
     until stripMineLengthDigged == 0
 
+    -- Setting direction in witch the turtle is looking
+    isLeft = false
+    
     repeat
         checkFuelAndRefill()
         placeBlockBelow()
