@@ -3,6 +3,7 @@ local distanceDigged = 0
 local stripMineDistance = 0
 local stripMineLength = 0
 local stripMineLengthDigged = 0
+local stripMineLengthTorchDistance = 0
 local stripMineDistanceDigged = 0
 
 local placeTorch = false
@@ -120,10 +121,20 @@ local function digStripMiningHallway()
         placeChestIfNeeded()
         digForward()
 
+        stripMineLengthTorchDistance = stripMineLengthTorchDistance + 1
         stripMineLengthDigged = stripMineLengthDigged + 1
+
+        if stripMineLengthTorchDistance > 7 then
+            checkTorchAndPlace() 
+        end
     until stripMineLengthDigged == stripMineLength
 
-    stripMineLengthDigged = 0
+    repeat
+        turtle.back()
+        stripMineLengthDigged = stripMineLengthDigged - 1
+    until stripMineLengthDigged == 0
+
+    turtle.turnRight()
 end
 
 print("How far do you want your Mine?")
