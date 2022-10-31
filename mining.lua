@@ -89,7 +89,6 @@ local function placeChestIfNeeded()
                 turtle.select(slot)
                 turtle.dropDown(turtle.getItemCount())
             end
-
             print("Placed all items into the Chest.")
         end
     else 
@@ -98,6 +97,8 @@ local function placeChestIfNeeded()
             os.shutdown()
         end
     end
+
+    turtle.select(fuelSlot)
 end
 
 local function digForward()
