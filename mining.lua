@@ -157,6 +157,13 @@ local function digStripMiningHallway()
             stripMineLengthTorchDistance = 0
         end
     until stripMineLengthDigged == stripMineLength
+
+    repeat
+        turtle.back()
+        stripMineLengthDigged = stripMineLengthDigged - 1
+    until stripMineLengthDigged == 0
+
+    turtle.turnLeft()
 end
 
 print("How far do you want your Mine?")
