@@ -126,13 +126,7 @@ local function digStripMiningHallway()
         placeChestIfNeeded()
         digForward()
 
-        stripMineLengthTorchDistance = stripMineLengthTorchDistance + 1
         stripMineLengthDigged = stripMineLengthDigged + 1
-
-        if stripMineLengthTorchDistance > 7 then
-            checkTorchAndPlace() 
-            stripMineLengthTorchDistance = 0
-        end
     until stripMineLengthDigged == stripMineLength
 
     repeat
@@ -141,7 +135,7 @@ local function digStripMiningHallway()
     until stripMineLengthDigged == 0
 
     turtle.turnRight()
-    --[[ turtle.turnRight()
+    turtle.turnRight()
 
     repeat
         checkFuelAndRefill()
@@ -149,22 +143,15 @@ local function digStripMiningHallway()
         placeChestIfNeeded()
         digForward()
 
-        stripMineLengthTorchDistance = stripMineLengthTorchDistance + 1
         stripMineLengthDigged = stripMineLengthDigged + 1
-
-        if stripMineLengthTorchDistance > 7 then
-            checkTorchAndPlace() 
-            stripMineLengthTorchDistance = 0
-        end
     until stripMineLengthDigged == stripMineLength
-    ]]
-
+   
     repeat
         turtle.back()
         stripMineLengthDigged = stripMineLengthDigged - 1
     until stripMineLengthDigged == 0
 
-    -- turtle.turnLeft() 
+    turtle.turnLeft() 
 end
 
 print("How far do you want your Mine?")
