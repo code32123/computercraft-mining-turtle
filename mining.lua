@@ -77,6 +77,23 @@ local function placeBlockBelow()
     end
 end
 
+local function digForward()
+    if turtle.detect() then
+        turtle.dig()
+        turtle.forward()
+
+        if turtle.detectUp() then 
+            turtle.digUp()
+        end
+    else
+        turtle.forward()
+
+        if turtle.detectUp() then 
+            turtle.digUp()
+        end
+    end
+end
+
 local function placeChestIfNeeded()
     -- Checking for Chest count
     if turtle.getItemCount(chestSlot) > 0 then
@@ -143,23 +160,6 @@ local function placeChestIfNeeded()
     end
 
     turtle.select(fuelSlot)
-end
-
-local function digForward()
-    if turtle.detect() then
-        turtle.dig()
-        turtle.forward()
-
-        if turtle.detectUp() then 
-            turtle.digUp()
-        end
-    else
-        turtle.forward()
-
-        if turtle.detectUp() then 
-            turtle.digUp()
-        end
-    end
 end
 
 local function digStripMiningHallway()
