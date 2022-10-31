@@ -1,10 +1,10 @@
 local distance = 0
 local distanceDigged = 0
 local stripMineDistance = 0
+local stripMineDistanceDigged = 0
 local stripMineLength = 0
 local stripMineLengthDigged = 0
 local stripMineLengthTorchDistance = 0
-local stripMineDistanceDigged = 0
 
 local placeTorch = false
 local stripMine = false
@@ -132,6 +132,7 @@ local function digStripMiningHallway()
 
         if stripMineLengthTorchDistance > 7 then
             checkTorchAndPlace() 
+            stripMineLengthTorchDistance = 0
         end
     until stripMineLengthDigged == stripMineLength
 
@@ -149,13 +150,15 @@ distance = tonumber(input)
 
 askStripMine()
 
-print("Length of Strip mine hallway:")
-input = io.read()
-stripMineLength = tonumber(input)
-
-print("Distance between Strip mine hallways:")
-input = io.read()
-stripMineDistance = tonumber(input)
+if stripMine then 
+    print("Length of Strip mine hallway:")
+    input = io.read()
+    stripMineLength = tonumber(input)
+    
+    print("Distance between Strip mine hallways:")
+    input = io.read()
+    stripMineDistance = tonumber(input)
+end
 
 repeat
     checkFuelAndRefill()
@@ -166,14 +169,14 @@ repeat
     distanceDigged = distanceDigged + 1
     distance = distance - 1
 
-   --[[  if stripMine then
+    if stripMine then
         stripMineDistanceDigged = stripMineDistanceDigged + 1
 
         if stripMineDistanceDigged == stripMineDistance then
             digStripMiningHallway()
             stripMineDistanceDigged = 0
         end
-    end ]]
+    end
 
     if distanceDigged == 7 then
         checkTorchAndPlace()
