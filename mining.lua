@@ -109,6 +109,12 @@ local function digForward()
         if turtle.detectUp() then 
             turtle.digUp()
         end
+    else
+        if turtle.detectUp() then 
+            turtle.digUp()
+        else
+            turtle.forward()
+        end
     end
 end
 
@@ -160,14 +166,14 @@ repeat
     distanceDigged = distanceDigged + 1
     distance = distance - 1
 
-    if stripMine then
+   --[[  if stripMine then
         stripMineDistanceDigged = stripMineDistanceDigged + 1
 
         if stripMineDistanceDigged == stripMineDistance then
             digStripMiningHallway()
             stripMineDistanceDigged = 0
         end
-    end
+    end ]]
 
     if distanceDigged == 7 then
         checkTorchAndPlace()
