@@ -106,7 +106,7 @@ local function placeChestIfNeeded()
                     turtle.turnLeft()
                     turtle.turnLeft()
 
-                    for block = 0, stripMineLengthDigged do
+                    for block = 0, stripMineLengthDigged - 1 do
                         digForward()
                     end
 
@@ -123,7 +123,7 @@ local function placeChestIfNeeded()
                     turtle.turnLeft()
                     turtle.turnLeft()
 
-                    for block = 0, stripMineLengthDigged do
+                    for block = 0, stripMineLengthDigged - 1 do
                         digForward()
                     end
                 else
