@@ -1,14 +1,13 @@
 local distance = 0
 local distanceDigged = 0
+local distanceDiggedTorchDistance = 0
 local stripMineDistance = 0
 local stripMineDistanceDigged = 0
 local stripMineLength = 0
 local stripMineLengthDigged = 0
 local stripMineLengthTorchDistance = 0
 
-local placeTorch = false
 local stripMine = false
-local fuelNeeded = false
 
 local fuelSlot = 1
 local torchSlot = 2
@@ -142,6 +141,22 @@ local function digStripMiningHallway()
     until stripMineLengthDigged == 0
 
     turtle.turnRight()
+    turtle.turnRight()
+
+    repeat
+        checkFuelAndRefill()
+        placeBlockBelow()
+        placeChestIfNeeded()
+        digForward()
+
+        stripMineLengthTorchDistance = stripMineLengthTorchDistance + 1
+        stripMineLengthDigged = stripMineLengthDigged + 1
+
+        if stripMineLengthTorchDistance > 7 then
+            checkTorchAndPlace() 
+            stripMineLengthTorchDistance = 0
+        end
+    until stripMineLengthDigged == stripMineLength
 end
 
 print("How far do you want your Mine?")
@@ -157,7 +172,7 @@ if stripMine then
     
     print("Distance between Strip mine hallways:")
     input = io.read()
-    stripMineDistance = tonumber(input)
+    stripMineDistance = tonumber(input) + 1
 end
 
 repeat
@@ -167,6 +182,7 @@ repeat
     digForward()
     
     distanceDigged = distanceDigged + 1
+    distanceDiggedTorchDistance = distanceDiggedTorchDistance + 1
 
     if stripMine then
         stripMineDistanceDigged = stripMineDistanceDigged + 1
@@ -177,10 +193,9 @@ repeat
         end
     end
 
-    --[[ if distanceDigged == 7 then
+    if distanceDiggedTorchDistance == 7 then
         checkTorchAndPlace()
-        distanceDigged = 0
-    end ]]
+        distanceDiggedTorchDistance = 0
+    end
 
-    sleep(0.5)
 until distance == distanceDigged
