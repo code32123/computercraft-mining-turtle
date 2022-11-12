@@ -16,6 +16,10 @@ local fuelSlot = 1
 local torchSlot = 2
 local chestSlot = 3
 local blockSlot = 4
+print("Fuel  slot:" fuelSlot)
+print("Torch slot:" torchSlot)
+print("Chest slot:" chestSlot)
+print("Block slot:" blockSlot)
 
 local function askStripMine()
     print("Do you want Strip Mining? \n 0(no) or 1(yes)")
@@ -55,6 +59,18 @@ local function checkTorchAndPlace()
         turtle.select(torchSlot)
         turtle.place()
         turtle.turnRight()
+        turtle.turnRight()
+    else
+        print("No Torch, no Light. :(")
+    end
+end
+
+local function checkTorchAndPlace_2()
+    -- Check Torch Count
+    if turtle.getItemCount(torchSlot) > 0 then
+        turtle.turnLeft()
+        turtle.select(torchSlot)
+        turtle.place()
         turtle.turnRight()
     else
         print("No Torch, no Light. :(")
@@ -173,6 +189,10 @@ local function digStripMiningHallway()
         placeBlockBelow()
         placeChestIfNeeded()
         digForward()
+        
+        if stripMineLengthDigged % 10 == 9 then
+            checkTorchAndPlace_2()
+        end
 
         stripMineLengthDigged = stripMineLengthDigged + 1
     until stripMineLengthDigged == stripMineLength
@@ -193,6 +213,10 @@ local function digStripMiningHallway()
         placeBlockBelow()
         placeChestIfNeeded()
         digForward()
+        
+        if stripMineLengthDigged % 10 == 9 then
+            checkTorchAndPlace_2()
+        end
 
         stripMineLengthDigged = stripMineLengthDigged + 1
     until stripMineLengthDigged == stripMineLength
