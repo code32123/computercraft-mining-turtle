@@ -16,10 +16,10 @@ local fuelSlot = 1
 local torchSlot = 2
 local chestSlot = 3
 local blockSlot = 4
-print("Fuel  slot:" fuelSlot)
-print("Torch slot:" torchSlot)
-print("Chest slot:" chestSlot)
-print("Block slot:" blockSlot)
+print("Fuel  slot:", fuelSlot)
+print("Torch slot:", torchSlot)
+print("Chest slot:", chestSlot)
+print("Block slot:", blockSlot)
 
 local function askStripMine()
     print("Do you want Strip Mining? \n 0(no) or 1(yes)")
